@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Plot: Salary vs Company Size</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+    <div id="vis"></div>
+
+    <script type="text/javascript">
+        // Vega-Lite specification for the bubble plot with data loaded from an external CSV file
+        var vlSpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "description": "Bubble Plot of Salary (in thousands) vs Company Size with AI Adoption Level determining bubble size.",
+            "width": 760,  // Adjust width here
+            "height": 400,  // Adjust height here
+            "data": {
+                "url": "ai_job_market_insights.csv",  // Path to your CSV file
+                "format": {"type": "csv"}  // Specify CSV format
+            },
+            "mark": "circle",
+            "transform": [
+                // Optional: Convert salary to 'k' units for better readability
+                {"calculate": "datum.Salary_USD / 1000", "as": "Salary_k"},  
+                // Create a formatted salary field for tooltip
+                {"calculate": "'$' + format(datum.Salary_k, '.1f') + 'k'", "as": "Formatted_Salary"}, 
+            ],
+            "encoding": {
+                "x": {
+                    "field": "Salary_k",
+                    "type": "quantitative",
+                    "axis": {
+                        "title": "Average salary (in thousands)",
+                        "format": ".1f"
+                    },
+                    "scale": {"domain": [30, 160]}  // Adjust the domain to fit data
+                },
+                "y": {
+                    "field": "Company_Size",
+                    "type": "nominal",
+                    "axis": {"title": "Company Size"},
+                    "sort": ["Large", "Medium", "Small"]  // Sorting the company size categories
+                },
+                "size": {
+                    "field": "AI_Adoption_Level",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": ["Low", "Medium", "High"],
+                        "range": [100, 500, 1000]  // Adjust the bubble sizes for Low, Medium, and High
+                    },
+                    "legend": {"title": "AI Adoption Level"}
+                },
+                "color": {
+                    "field": "AI_Adoption_Level",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": ["Low", "Medium", "High"],
+                        "range": ["#2ca02c", "#ff7f0e", "#1f77b4"]  // Custom colors for AI adoption levels
+                    },
+                    "legend": {"title": "AI Adoption Level"}
+                },
+                "tooltip": [
+                    {"field": "Formatted_Salary", "type": "nominal", "title": "Salary (USD)"},
+                    {"field": "Company_Size", "type": "nominal", "title": "Company Size"},
+                    {"field": "AI_Adoption_Level", "type": "nominal", "title": "AI Adoption Level"},
+                    {"field": "Location", "type": "nominal", "title": "Location"}  // Add other fields if needed
+                ]
+            },
+            "config": {
+                "axis": {
+                    "labelFontSize": 12,
+                    "titleFontSize": 14
+                },
+                "legend": {
+                    "labelFontSize": 12,
+                    "titleFontSize": 14
+                }
+            }
+        };
+
+        // Embed the visualization in the container with id "vis"
+        vegaEmbed('#vis', vlSpec).catch(console.error);
+    </script>
+</body>
+</html>

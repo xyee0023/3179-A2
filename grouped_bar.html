@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grouped Bar Chart: AI Adoption Level by Industry</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+    <div id="vis"></div>
+
+    <script type="text/javascript">
+        // Vega-Lite JSON specification for the grouped bar chart with annotations
+        var vlSpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "description": "Grouped Bar Chart showing AI Adoption Level by Industry with Number of Companies, including annotations.",
+            "width": 800,  // Adjust width here
+            "height": 335,  // Adjust height here
+            "data": {
+                "url": "ai_job_market_insights.csv",  // Path to your CSV file
+                "format": {"type": "csv"}  // Specify CSV format
+            },
+            "transform": [
+                // Aggregation transform to count the number of companies by Industry and AI Adoption Level
+                {"aggregate": [{"op": "count", "as": "Count"}], "groupby": ["Industry", "AI_Adoption_Level"]}
+            ],
+            "layer": [
+                {
+                    "mark": "bar",
+                    "encoding": {
+                        "x": {"field": "Industry", "type": "nominal", "axis": {"title": "Industry", "labelAngle": -45 }},
+                        "y": {"field": "Count", "type": "quantitative", "axis": {"title": "Number of Companies"}},
+                        "xOffset": {"field": "AI_Adoption_Level", "sort": ["High", "Medium", "Low"]},
+                        "color": {
+                            "field": "AI_Adoption_Level",
+                            "type": "nominal",
+                            "scale": {
+                                "domain": ["High", "Medium", "Low"],
+                                "range": ["#1f77b4", "#ff7f0e", "#2ca02c"]  // Custom colors for High, Medium, Low
+                            },
+                            "legend": {"title": "AI Adoption Level"}
+                        },
+                        "tooltip": [
+                            {"field": "Industry", "type": "nominal", "title": "Industry"},
+                            {"field": "AI_Adoption_Level", "type": "nominal", "title": "AI Adoption Level"},
+                            {"field": "Count", "type": "quantitative", "title": "Number of Companies"}
+                        ]
+                    }
+                },
+                // Add annotation text for Healthcare industry
+                {
+                "layer": [
+                    // First line of the Healthcare annotation text
+                    {
+                        "mark": {
+                            "type": "text",
+                            "align": "left",
+                            "baseline": "middle",
+                            "dx": -80,
+                            "dy": -90,
+                            "fontSize": 12,
+                            // "fontWeight": "bold",
+                            "color": "black"
+                        },
+                        "encoding": {
+                            "x": {"datum": "Healthcare"},
+                            "y": {"datum": 17},
+                            "text": {"value": "Healthcare is the only industry"}
+                        }
+                    },
+                    // Second line of the Healthcare annotation text
+                    {
+                        "mark": {
+                            "type": "text",
+                            "align": "left",
+                            "baseline": "middle",
+                            "dx": -80,
+                            "dy": -75,  // Adjust dy to place below the first line
+                            "fontSize": 12,
+                            // "fontWeight": "bold",
+                            "color": "black"
+                        },
+                        "encoding": {
+                            "x": {"datum": "Healthcare"},
+                            "y": {"datum": 17},
+                            "text": {"value": "where High AI adoption > Medium/Low"}
+                        }
+                    }
+                ]
+            },
+
+
+                // Add annotation text for Technology industry
+                {
+            "layer": [
+                // First line of text
+                {
+                    "mark": {
+                        "type": "text",
+                        "align": "left",
+                        "baseline": "middle",
+                        "dx": -80,
+                        "dy": 15,
+                        "fontSize": 12,
+                        // "fontWeight": "bold",
+                        "color": "black"
+                    },
+                    "encoding": {
+                        "x": {"datum": "Technology"},
+                        "y": {"datum": 31},
+                        "text": {"value": "High proportion of companies in"}
+                    }
+                },
+                // Second line of text
+                {
+                    "mark": {
+                        "type": "text",
+                        "align": "left",
+                        "baseline": "middle",
+                        "dx": -80,
+                        "dy": 30,  // Adjust 'dy' to position below the first line
+                        "fontSize": 12,
+                        // "fontWeight": "thin",
+                        "color": "black"
+                    },
+                    "encoding": {
+                        "x": {"datum": "Technology"},
+                        "y": {"datum": 31},
+                        "text": {"value": "Technology are at Medium AI adoption"}
+                    }
+                }
+            ]
+        },
+
+            ],
+            "config": {
+                "axis": {
+                    "labelFontSize": 12,
+                    "titleFontSize": 14
+                },
+                "legend": {
+                    "labelFontSize": 12,
+                    "titleFontSize": 14
+                }
+            }
+        };
+
+        // Embed the visualization in the container with id "vis"
+        vegaEmbed('#vis', vlSpec).catch(console.error);
+    </script>
+</body>
+</html>

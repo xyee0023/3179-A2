@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Index Map with Cluster Filter and Annotations</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .filters {
+            margin-bottom: 20px;
+        }
+        .filter-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Filter for Cluster -->
+    <div class="filters">
+        <label class="filter-label" for="cluster">Cluster:</label>
+        <select id="cluster" onchange="updateMap()">
+            <option value="All">All</option>
+            <option value="Power players">Power players</option>
+            <option value="Traditional champions">Traditional champions</option>
+            <option value="Rising stars">Rising stars</option>
+            <option value="Waking up">Waking up</option>
+            <option value="Nascent">Nascent</option> 
+        </select>
+    </div>
+
+    <!-- Div where the map will be rendered -->
+    <div id="map"></div>
+
+    <!-- Vega-Lite Script -->
+    <script>
+        // Define the initial map specification
+        var mapSpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            // "title": "AI Index by Country with Cluster Filter",
+            "width": 700,
+            "height": 400,
+            "projection": {"type": "equalEarth"},
+            "data": {
+                "url": "ne_110m.json",  // Path to your TopoJSON file
+                "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+            },
+            "transform": [
+                {
+                    "lookup": "properties.NAME",
+                    "from": {
+                        "data": {
+                            "url": "AI_index_db.csv"  // Path to your CSV file
+                        },
+                        "key": "Country",
+                        "fields": ["Score", "Cluster"]
+                    }
+                },
+                {
+                    "calculate": "datum['Score'] !== null ? datum['Score'] : 0.0",
+                    "as": "Adjusted Score"
+                }
+            ],
+            "layer": [
+                {
+                    // Ocean background only
+                    "mark": {"type": "geoshape", "fill": "#a0c1f4"},  // Typical ocean blue
+                    "data": {
+                        "sphere": true  // This sets the background ocean color
+                    }
+                },
+                {
+                    // Graticule (latitude/longitude lines)
+                    "mark": {"type": "geoshape", "stroke": "lightgrey", "strokeWidth": 0.5},
+                    "data": {
+                        "graticule": true  // Add the graticule layer
+                    }
+                },
+                {
+                    "mark": {"type": "geoshape"},
+                    "encoding": {
+                        "color": {
+                            "condition": {
+                                "test": "datum['Adjusted Score'] === 0",
+                                "value": "lightgrey"
+                            },
+                            "field": "Adjusted Score",
+                            "type": "quantitative",
+                            "scale": {"scheme": "oranges"},
+                            "legend": {"title": "AI Score"}  // This sets the legend title
+                        },
+                        "tooltip": [
+                            {"field": "properties.NAME", "type": "nominal", "title": "Country"},
+                            {"field": "Adjusted Score", "type": "quantitative", "title": "AI Score"},
+                            {"field": "Cluster", "type": "nominal", "title": "Cluster"}
+                        ]
+                    }
+                },
+                {
+                    "data": {
+                        "values": [
+                            {"Country": "United States", "Latitude": 35.0, "Longitude": -47.0, "Label": "AI Superpower: USA"},
+                            {"Country": "China", "Latitude": 30.0, "Longitude": 150.0, "Label": "AI Superpower: China"},
+                        ]
+                    },
+                    "mark": {"type": "text", "fontSize": 10, "fontWeight": "bold", "color": "black"},
+                    "encoding": {
+                        "longitude": {"field": "Longitude", "type": "quantitative"},
+                        "latitude": {"field": "Latitude", "type": "quantitative"},
+                        "text": {"field": "Label"}
+                    }
+                }
+            ]
+        };
+
+        // Render the map for the first time
+        vegaEmbed('#map', mapSpec).then(function(result) {
+            window.vegaView = result.view;  // Save Vega view for updates
+        }).catch(console.error);
+
+        // Function to update the map based on selected filter
+        function updateMap() {
+            // Get the selected Cluster value
+            var selectedCluster = document.getElementById("cluster").value;
+
+            // Update the calculate field based on selected Cluster
+            if (selectedCluster !== "All") {
+                // Set Adjusted Score to 0 for countries not in the selected Cluster
+                mapSpec.transform[1] = {
+                    "calculate": "datum['Cluster'] === '" + selectedCluster + "' ? datum['Score'] : 0.0",
+                    "as": "Adjusted Score"
+                };
+            } else {
+                // If "All" is selected, revert back to showing actual AI scores or 0 if missing
+                mapSpec.transform[1] = {
+                    "calculate": "datum['Score'] !== null ? datum['Score'] : 0.0",
+                    "as": "Adjusted Score"
+                };
+            }
+
+            // Re-embed the Vega-Lite visualization with the updated mapSpec
+            vegaEmbed('#map', mapSpec).then(function(result) {
+                window.vegaView = result.view;  // Save the new Vega view for further updates
+            }).catch(console.error);
+        }
+    </script>
+</body>
+</html>

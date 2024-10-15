@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global AI Index and Job Market Impact</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+        .visualization {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        iframe {
+            width: 100%;
+            border: none;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Global AI Index and Job Market Impact</h1>
+
+    <div class="container">
+        <!-- Map Visualization -->
+        <div class="visualization" style="width: 1020px;">
+            <iframe src="map.html" style="height: 600px;" scrolling="no"></iframe>
+        </div>
+
+        <!-- Radar Chart Visualization -->
+        <div class="visualization" style="width: 540px;">
+            <iframe src="radar.html" style="height: 620px;" scrolling="no"></iframe>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Grouped Bar Chart Visualization -->
+        <div class="visualization" style="width: 1000px;">
+            <iframe src="grouped_bar.html" style="height: 520px;" scrolling="no"></iframe>
+        </div>
+
+        <!-- Word Cloud Visualization -->
+        <div class="visualization" style="width: 850px; height: 450px;">
+            <iframe src="word_cloud.html" style="height: 520px;" scrolling="no"></iframe>
+        </div>
+    </div>
+</body>
+</html>
