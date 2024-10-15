@@ -1,0 +1,73 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "description": "Word cloud for Job Titles and Required Skills with High Automation Risk",
+    "width": 800,
+    "height": 400,
+    "padding": 0,
+
+    "data": [
+      {
+        "name": "table",
+        "url": "ai_job_market_insights.csv",  
+        "format": {"type": "csv"},
+        "transform": [
+          {
+            "type": "filter",
+            "expr": "datum.Automation_Risk === 'High'"
+          },
+          {
+            "type": "aggregate",
+            "groupby": ["Job_Title"],  
+            "fields": ["Job_Title"],
+            "ops": ["count"],
+            "as": ["count"]
+          },
+          {
+            "type": "formula",
+            "as": "fixedX",
+            "expr": "datum.Job_Title == 'Data Scientist' ? 300 : datum.Job_Title == 'HR Manager' ? 300 : datum.Job_Title == 'Cybersecurity Analyst' ? 500 : datum.Job_Title == 'UX Designer' ? 200 : datum.Job_Title == 'AI Researcher' ? 400 : datum.Job_Title == 'Product Manager' ? 600 : datum.Job_Title == 'Software Engineer' ? 150 : datum.Job_Title == 'Marketing Specialist' ? 350 : datum.Job_Title == 'Operations Manager' ? 500 : 50"
+          },
+          {
+            "type": "formula",
+            "as": "fixedY",
+            "expr": "datum.Job_Title == 'Data Scientist' ? 100 : datum.Job_Title == 'HR Manager' ? 150 : datum.Job_Title == 'Cybersecurity Analyst' ? 200 : datum.Job_Title == 'UX Designer' ? 300 : datum.Job_Title == 'AI Researcher' ? 50 : datum.Job_Title == 'Product Manager' ? 100 : datum.Job_Title == 'Software Engineer' ? 200 : datum.Job_Title == 'Marketing Specialist' ? 250 : datum.Job_Title == 'Operations Manager' ? 300 : 100"
+          }
+        ]
+      }
+    ],
+
+    "scales": [
+      {
+        "name": "color",
+        "type": "ordinal",
+        "domain": {"data": "table", "field": "Job_Title"},
+        "range": ["#d5a928", "#652c90", "#939597"]
+      }
+    ],
+
+    "marks": [
+      {
+        "type": "text",
+        "from": {"data": "table"},
+        "encode": {
+          "enter": {
+            "text": {"field": "Job_Title"},
+            "align": {"value": "center"},
+            "baseline": {"value": "alphabetic"},
+            "fill": {"scale": "color", "field": "Job_Title"},
+            "x": {"field": "fixedX"},  
+            "y": {"field": "fixedY"},  
+            "fontSize": {"field": "count", "mult": 2}, 
+            "tooltip": {"signal": "datum.count + ' of ' + datum.Job_Title + ' are in high Automation Risk (next 10 years)'"}
+
+          },
+          "update": {
+            "fillOpacity": {"value": 1}
+          },
+          "hover": {
+            "fillOpacity": {"value": 0.5}
+          }
+        }
+      }
+    ]
+  }

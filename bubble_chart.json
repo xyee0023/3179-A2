@@ -1,0 +1,67 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Bubble Plot of Salary (in thousands) vs Company Size with AI Adoption Level determining bubble size.",
+    "width": 760,
+    "height": 400,
+    "data": {
+      "url": "ai_job_market_insights.csv",
+      "format": {"type": "csv"}
+    },
+    "mark": "circle",
+    "transform": [
+      {"calculate": "datum.Salary_USD / 1000", "as": "Salary_k"},
+      {"calculate": "'$' + format(datum.Salary_k, '.1f') + 'k'", "as": "Formatted_Salary"}
+    ],
+    "encoding": {
+      "x": {
+        "field": "Salary_k",
+        "type": "quantitative",
+        "axis": {
+          "title": "Average salary (in thousands)",
+          "format": ".1f"
+        },
+        "scale": {"domain": [30, 160]}
+      },
+      "y": {
+        "field": "Company_Size",
+        "type": "nominal",
+        "axis": {"title": "Company Size"},
+        "sort": ["Large", "Medium", "Small"]
+      },
+      "size": {
+        "field": "AI_Adoption_Level",
+        "type": "nominal",
+        "scale": {
+          "domain": ["Low", "Medium", "High"],
+          "range": [100, 500, 1000]
+        },
+        "legend": {"title": "AI Adoption Level"}
+      },
+      "color": {
+        "field": "AI_Adoption_Level",
+        "type": "nominal",
+        "scale": {
+          "domain": ["Low", "Medium", "High"],
+          "range": ["#2ca02c", "#ff7f0e", "#1f77b4"]
+        },
+        "legend": {"title": "AI Adoption Level"}
+      },
+      "tooltip": [
+        {"field": "Formatted_Salary", "type": "nominal", "title": "Salary (USD)"},
+        {"field": "Company_Size", "type": "nominal", "title": "Company Size"},
+        {"field": "AI_Adoption_Level", "type": "nominal", "title": "AI Adoption Level"},
+        {"field": "Location", "type": "nominal", "title": "Location"}
+      ]
+    },
+    "config": {
+      "axis": {
+        "labelFontSize": 12,
+        "titleFontSize": 14
+      },
+      "legend": {
+        "labelFontSize": 12,
+        "titleFontSize": 14
+      }
+    }
+  }
+  

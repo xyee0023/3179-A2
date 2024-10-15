@@ -1,0 +1,84 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "description": "A radar chart showing AI capabilities for selected countries.",
+    "width": 500,
+    "height": 500,
+    "padding": 70,
+    "autosize": {"type": "none", "contains": "padding"},
+    "signals": [{"name": "radius", "update": "width / 2.1"}],
+    "data": [
+      {
+        "name": "table",
+        "url": "AI_index_db.csv",
+        "format": {"type": "csv"},
+        "transform": [
+          {"type": "filter", "expr": "datum.Country == 'selectedCountry1' || datum.Country == 'selectedCountry2'"},
+          {
+            "type": "fold",
+            "fields": ["Talent", "Infrastructure", "Operating Environment", "Research", "Government Strategy", "Commercial", "Development"],
+            "as": ["key", "value"]
+          },
+          {"type": "identifier", "as": "category"}
+        ]
+      },
+      {
+        "name": "keys",
+        "source": "table",
+        "transform": [{"type": "aggregate", "groupby": ["key"]}]
+      }
+    ],
+    "scales": [
+      {
+        "name": "angular",
+        "type": "point",
+        "range": {"signal": "[-PI, PI]"},
+        "padding": 0.5,
+        "domain": {"data": "table", "field": "key"}
+      },
+      {
+        "name": "radial",
+        "type": "linear",
+        "range": {"signal": "[0, radius]"},
+        "zero": true,
+        "nice": false,
+        "domain": {"data": "table", "field": "value"},
+        "domainMin": 0
+      },
+      {
+        "name": "color",
+        "type": "ordinal",
+        "domain": ["China", "United States of America", "United Kingdom", "Germany", "France", "Australia"],
+        "range": ["#ff7f0e", "#1f77b4", "#2ca02c", "#d62728", "#9467bd", "#393b79"] 
+      }
+    ],
+    "marks": [
+      {
+        "type": "group",
+        "name": "categories",
+        "zindex": 1,
+        "from": {
+          "facet": {"data": "table", "name": "facet", "groupby": ["Country"]}
+        },
+        "marks": [
+          {
+            "type": "line",
+            "name": "category-line",
+            "from": {"data": "facet"},
+            "encode": {
+              "enter": {
+                "interpolate": {"value": "linear-closed"},
+                "x": {"signal": "scale('radial', datum.value) * cos(scale('angular', datum.key))"},
+                "y": {"signal": "scale('radial', datum.value) * sin(scale('angular', datum.key))"},
+                "stroke": {"scale": "color", "field": "Country"},
+                "strokeWidth": {"value": 2},
+                "fill": {"scale": "color", "field": "Country"},
+                "fillOpacity": {"value": 0.1},
+                "tooltip": {"signal": "{'Country': datum.Country, 'Category': datum.key, 'Value': datum.value}"}
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+  

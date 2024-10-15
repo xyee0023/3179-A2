@@ -1,0 +1,131 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Grouped Bar Chart showing AI Adoption Level by Industry with Number of Companies, including annotations.",
+    "width": 800,
+    "height": 335,
+    "data": {
+      "url": "ai_job_market_insights.csv",
+      "format": {"type": "csv"}
+    },
+    "transform": [
+      {
+        "aggregate": [{"op": "count", "as": "Count"}],
+        "groupby": ["Industry", "AI_Adoption_Level"]
+      }
+    ],
+    "layer": [
+      {
+        "mark": "bar",
+        "encoding": {
+          "x": {
+            "field": "Industry",
+            "type": "nominal",
+            "axis": {"title": "Industry", "labelAngle": -45}
+          },
+          "y": {
+            "field": "Count",
+            "type": "quantitative",
+            "axis": {"title": "Number of Companies"}
+          },
+          "xOffset": {"field": "AI_Adoption_Level", "sort": ["High", "Medium", "Low"]},
+          "color": {
+            "field": "AI_Adoption_Level",
+            "type": "nominal",
+            "scale": {
+              "domain": ["High", "Medium", "Low"],
+              "range": ["#1f77b4", "#ff7f0e", "#2ca02c"]
+            },
+            "legend": {"title": "AI Adoption Level"}
+          },
+          "tooltip": [
+            {"field": "Industry", "type": "nominal", "title": "Industry"},
+            {"field": "AI_Adoption_Level", "type": "nominal", "title": "AI Adoption Level"},
+            {"field": "Count", "type": "quantitative", "title": "Number of Companies"}
+          ]
+        }
+      },
+      {
+        "layer": [
+          {
+            "mark": {
+              "type": "text",
+              "align": "left",
+              "baseline": "middle",
+              "dx": -80,
+              "dy": -90,
+              "fontSize": 12,
+              "color": "black"
+            },
+            "encoding": {
+              "x": {"datum": "Healthcare"},
+              "y": {"datum": 17},
+              "text": {"value": "Healthcare is the only industry"}
+            }
+          },
+          {
+            "mark": {
+              "type": "text",
+              "align": "left",
+              "baseline": "middle",
+              "dx": -80,
+              "dy": -75,
+              "fontSize": 12,
+              "color": "black"
+            },
+            "encoding": {
+              "x": {"datum": "Healthcare"},
+              "y": {"datum": 17},
+              "text": {"value": "where High AI adoption > Medium/Low"}
+            }
+          }
+        ]
+      },
+      {
+        "layer": [
+          {
+            "mark": {
+              "type": "text",
+              "align": "left",
+              "baseline": "middle",
+              "dx": -80,
+              "dy": 15,
+              "fontSize": 12,
+              "color": "black"
+            },
+            "encoding": {
+              "x": {"datum": "Technology"},
+              "y": {"datum": 31},
+              "text": {"value": "High proportion of companies in"}
+            }
+          },
+          {
+            "mark": {
+              "type": "text",
+              "align": "left",
+              "baseline": "middle",
+              "dx": -80,
+              "dy": 30,
+              "fontSize": 12,
+              "color": "black"
+            },
+            "encoding": {
+              "x": {"datum": "Technology"},
+              "y": {"datum": 31},
+              "text": {"value": "Technology are at Medium AI adoption"}
+            }
+          }
+        ]
+      }
+    ],
+    "config": {
+      "axis": {
+        "labelFontSize": 12,
+        "titleFontSize": 14
+      },
+      "legend": {
+        "labelFontSize": 12,
+        "titleFontSize": 14
+      }
+    }
+  }
+  
