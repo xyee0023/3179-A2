@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global AI Index and Job Market Impact</title>
+    <style>
+        /* Top Section with blue Background */
+        .top-section {
+            font-family: 'Georgia', serif;
+            background-color: #1b4f72; 
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 50px;
+        }
+
+        .top-section h1 {
+            font-size: 40px;
+            margin-bottom: 70px;
+            margin-top: 50px;
+        }
+
+        .top-section p {
+            font-family: 'Lucida Sans', serif;
+            font-size: 20px;
+            line-height: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+            color: #f5f5f5;
+            margin-bottom: 40px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+        .visualization {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: auto; /* Adjusted to not affect text */
+        }
+        iframe {
+            width: 100%;
+            border: none;
+        }
+        .text-block {
+            max-width: 1200px; /* Independent width for text */
+            width: 100%; /* Full width */
+            margin: 20px auto;
+            text-align: center;
+        }
+        /* Section Title Style */
+        .section-title {
+            color: #1b4f72; 
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 40px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 20px;
+            line-height: 1.5;
+            color: #333;
+            text-align: left;
+        }
+
+            /* Metadata section */
+        .metadata {
+            font-family: 'Courier New', Courier, monospace; /* Different font */
+            font-size: 15px; /* Smaller font size */
+            color: #555; /* Slightly lighter color for the text */
+            text-align: left; 
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+        
+        .metadata a {
+            color: #1b4f72; /* Same color as section titles for links */
+            text-decoration: none;
+        }
+
+        .metadata a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            width: 70%;
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+        <!-- Top Section with Title and Description -->
+    <div class="top-section">
+        <h1>Global AI Index & Job Market Impact</h1>
+        <p>This visualization explores how countries are performing in the AI race, and the risks certain job titles face in the next decade due to AI automation. It highlights AI indicators, company adoption levels, and potential disruptions to the workforce.</p>
+    </div>
+    
+
+    <!-- Text above the global map -->
+    <div class="text-block">
+        <h2 class="section-title">Global AI Landscape</h2>
+        <p>
+            The global AI landscape is constantly evolving, with some countries leading the charge while others are slowly catching up. This map illustrates the <strong>AI scores</strong> (an index used to benchmark nations on their level of investment, innovation, and implementation of artificial intelligence) for various countries, categorized into five clusters: <strong>Waking up</strong>, <strong>Rising stars</strong>, <strong>Nascent</strong>, <strong>Traditional champions</strong>, and <strong>Power players</strong>. These clusters reflect the overall AI readiness and development level of each country, from those just beginning their AI journey to those leading the world. The AI Index score helps governments and policymakers assess their nation's position in the AI race.
+        </p>
+        </p>
+    </div>
+
+    <!-- Map Visualization -->
+    <div class="container">
+        <div class="visualization" style="width: 820px;">
+            <iframe src="map.html" style="height: 450px;" scrolling="no"></iframe>
+        </div>
+    </div>
+
+    <!-- Text above radar chart -->
+    <div class="text-block">
+        <h2 class="section-title">AI Strength Comparison</h2>
+        <p>
+            Not all countries are equal when it comes to AI capabilities. This radar chart allows you to compare two countries based on seven critical AI factors: <strong>talent, research, development, AI infrastructure, Commercial, Government strategy, and Operating environment</strong>. Each of these factors plays a vital role in a country’s AI growth and competitiveness.
+        </p>
+    </div>
+
+    <!-- Radar Chart Visualization -->
+    <div class="container">
+        <div class="visualization" style="width: 540px;">
+            <iframe src="radar.html" style="height: 540px;" scrolling="no"></iframe>
+        </div>
+    </div>
+
+    <!-- Text above grouped bar chart -->
+    <div class="text-block">
+        <h2 class="section-title">AI Adoption Across Industries</h2> 
+        <p>
+            As AI technology advances, its adoption is spreading across various industries, transforming the way businesses operate. This grouped bar chart illustrates the level of AI adoption in different industries—categorized by high, medium, and low levels of implementation. While some sectors, such as <strong>Technology and Manufactoring</strong>, are quick to adopt AI due to their data-driven nature, other industries may be slower to embrace it. The chart provides insights into which industries are leading the AI revolution and which are still catching up.
+        </p>
+    </div>
+
+    <!-- Grouped Bar Chart Visualization -->
+    <div class="container">
+        <div class="visualization" style="width: 990px;">
+            <iframe src="grouped_bar.html" style="height: 450px;" scrolling="no"></iframe>
+        </div>
+    </div>
+
+    <!-- Text above the bubble plot -->
+    <div class="text-block">
+        <h2 class="section-title">AI Adoption vs Company Size and Salary</h2>
+        <p>
+            This bubble plot explores the relationship between the average salary offered by companies, their size (small, medium, or large), and the level of AI adoption within the company. Larger bubbles represent companies with higher AI adoption levels, while the position of each bubble reflects the company’s size and the average salary offered. This visualization helps highlight trends in how AI adoption correlates with company size and salary levels.
+        </p>
+    </div>
+
+    <!-- Bubble Plot Visualization -->
+    <div class="container">
+        <div class="visualization" style="width: 990px;">
+            <iframe src="bubble.html" style="height: 450px;" scrolling="no"></iframe>
+        </div>
+    </div>
+    
+    <!-- Text above word cloud -->
+    <div class="text-block">
+        <h2 class="section-title">Jobs at Risk of Automation</h2>
+        <p>
+            The rise of AI doesn’t just bring opportunities—it also poses risks, particularly for jobs that are easily automated. This word cloud highlights job titles that are most at risk of being automated within the next decade. Larger words represent higher risks of automation. Roles such as <strong>Cybersecurity Analyst, Sales manager, and AI Researcher</strong> may face significant disruptions. This visualization underscores the importance of reskilling and upskilling the workforce to adapt to the evolving job landscape in the AI era.
+        </p>
+    </div>
+
+    <!-- Word Cloud Visualization -->
+    <div class="container">
+        <div class="visualization" style="width: 850px; height: 350px;">
+            <iframe src="word_cloud.html" style="height: 520px;" scrolling="no"></iframe>
+        </div>
+    </div>
+
+    <!-- Conclusion Text -->
+    <div class="text-block">
+        <h2 class="section-title">Conclusion</h2>
+        <p>
+            As AI continues to advance, its impact on industries and the workforce becomes increasingly significant. From global AI leaders driving innovation to companies adopting AI technologies at different levels, the shift towards automation is reshaping the job market. While AI brings new opportunities, it also poses challenges, particularly for jobs at high risk of automation. Preparing the workforce through reskilling and upskilling will be crucial in ensuring a balanced, AI-driven future.
+        </p>
+    </div>
+    
+    <!-- Line separator -->
+    <hr style="border: 1px solid #585656; margin-top: 50px;">
+
+    <!-- Metadata Section -->
+    <div class="metadata">
+        <p>By Xinpei Ye, Monash University, October 2024</p>
+        <p><strong>Data from:</strong></p>
+        <ul>
+            <li>AI Global Index: <em>Seven indicators making sense of AI on a global scale</em> - <a href="https://www.kaggle.com/datasets/katerynameleshenko/ai-index" target="_blank">https://www.kaggle.com/datasets/katerynameleshenko/ai-index</a></li>
+            <li>AI-Powered Job Market Insights: <em>A synthetic but realistic snapshot of the modern job market on the role of AI</em> - <a href="https://www.kaggle.com/datasets/uom190346a/ai-powered-job-market-insights/data" target="_blank">https://www.kaggle.com/datasets/uom190346a/ai-powered-job-market-insights/data</a></li>
+        </ul>
+    </div>
+    
+
+</body>
+</html>
